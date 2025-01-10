@@ -7,6 +7,10 @@
 2. Sau đó sẽ lấy nội dùng và link đầu tiên từ từ khóa đó, nếu không lấy được nội dung thì có thể lấy đường dẫn.
 3. Sử dụng multithread để chạy nhiều gg chrome cùng một lúc và lưu dữ liệu vào csv song song với việc chạy tiến trình thu thập dữ liệu.
 ## Code
+0. Cài đặt python trên ubuntu:
+```bash
+sudo apt install python3
+```
 1. Clone Repo:
 ```bash
 git clone https://github.com/HoangLinh03-code/Crawl
