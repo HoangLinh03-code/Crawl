@@ -1,11 +1,11 @@
 # Crawl
-## File CrawlTitle.py sẽ thu thập tiêu đề từ qua các gợi ý của google
+## File CrawlV2.py sẽ thu thập tiêu đề từ qua các gợi ý của google
 1. Đầu tiên sẽ truyền từ khóa, chờ cho đến khi google hiện kết quả tìm kiếm.
-2. Sau đó chương trình sẽ tìm đến phần chứa các gợi ý từ khóa đó, dùng click tự động để hiện ra thêm gợi ý mới đồng thời thu thập thập các tiêu đề sau đó, tiếp tục như vậy cho đến khi đủ dữ liệu thì dừng.
-## File CrawlContent sẽ thu thập nội dung và link từ các từ khóa đã thu thập trước đó
-1. Truyền vào các từ khóa tiêu đề tìm kiếm đã được thu thập vào file gg_sugg.csv trước đó, chờ gg hiển thị kết quả.
-2. Sau đó sẽ lấy nội dùng và link đầu tiên từ từ khóa đó, nếu không lấy được nội dung thì có thể lấy đường dẫn.
-3. Sử dụng multithread để chạy nhiều gg chrome cùng một lúc và lưu dữ liệu vào csv song song với việc chạy tiến trình thu thập dữ liệu.
+2. Sau đó chương trình sẽ tìm đến phần chứa các gợi ý từ khóa đó, dùng click tự động vào gợi ý đầu tiên liên tục 20 lần (có thể thay đổi số lần click).
+3. Sau khi đã click đủ thì chương trình sẽ lưu số gợi ý đã được sinh ra gợi ý đầu.
+4. Tiếp theo sẽ chương trình sẽ thu thập lần lượt tiêu đề, nội dung và đường dẫn tới thông tin đó.
+5. Chương trình sẽ vừa thu thập vừa lưu dữ liệu vào file .csv để có thể biết được dữ liệu thu thập có được hay không.
+6. Cuối cùng chương trình sẽ lưu lại tất cả dữ liệu đã thu thập vào 1 file csv.
 ## Code
 0. Cài đặt python trên ubuntu:
 ```bash
@@ -20,8 +20,8 @@ cd Crawl
 ```bash
 pip install -r requirements.txt
 ```
-3. Chạy CrawlTitle.py:
+3. Chạy CrawlV2.py:
 ```bash
-python CrawlTitle.py
+python CrawlV2.py
 ```
 
