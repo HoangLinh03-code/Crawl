@@ -7,11 +7,16 @@
 2. Sau đó sẽ lấy nội dùng và link đầu tiên từ từ khóa đó, nếu không lấy được nội dung thì có thể lấy đường dẫn.
 3. Sử dụng multithread để chạy nhiều gg chrome cùng một lúc và lưu dữ liệu vào csv song song với việc chạy tiến trình thu thập dữ liệu.
 ## Code
-1. Tải các thư viện cần thiết về:
+1. Clone Repo:
+```bash
+git clone https://github.com/HoangLinh03-code/Crawl
+cd Crawl
+```
+2. Tải các thư viện cần thiết về:
 ```bash
 pip install -r requirements.txt
 ```
-2. Chạy CrawlTitle.py:
+3. Chạy CrawlTitle.py:
 ```bash
 python CrawlTitle.py
 ```
