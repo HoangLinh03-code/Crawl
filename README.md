@@ -22,6 +22,6 @@ pip install -r requirements.txt
 ```
 3. Chạy CrawlV2.py:
 ```bash
-python CrawlV2.py
+python gui.py
 ```
 
