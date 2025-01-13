@@ -12,11 +12,10 @@ class GoogleScraperGUI:
         self.root.title("Công Cụ Cào Dữ Liệu Google")
         self.root.geometry("800x600")
         
-        # Biến
         self.driver = None
         self.is_scraping = False
         self.current_file = None
-        
+        self.scraping_event = threading.Event()
         self.create_gui()
         
     def create_gui(self):
@@ -122,6 +121,7 @@ class GoogleScraperGUI:
         self.progress_var.set(0)
         self.update_status("Đang khởi động...")
         
+        self.scraping_event.clear()  # Đặt lại sự kiện để tiếp tục quá trình
         thread = threading.Thread(target=self.scraping_thread)
         thread.daemon = True
         thread.start()
@@ -139,7 +139,8 @@ class GoogleScraperGUI:
                     self.current_file, 
                     int(self.clicks_entry.get()),
                     progress_callback=self.update_progress,
-                    status_callback=self.update_status
+                    status_callback=self.update_status,
+                    stop_event=self.scraping_event  # Truyền event để dừng quá trình
                 )
                 
                 if self.is_scraping:
@@ -168,6 +169,7 @@ class GoogleScraperGUI:
     def stop_scraping(self):
         """Dừng quá trình cào dữ liệu"""
         self.is_scraping = False
+        self.scraping_event.set()  # Đánh dấu sự kiện để dừng quá trình cào dữ liệu
         self.update_status("Đang dừng quá trình cào dữ liệu...")
         self.stop_button.config(state=tk.DISABLED)
 

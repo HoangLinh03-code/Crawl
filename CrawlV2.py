@@ -8,41 +8,69 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import logging
-
+import json
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# def web_driver():
+#     chrome_driver_path = '/home/hoanglinh/CrawlData/chromedriver-linux64/chromedriver'
+#     chrome_binary_path = '/usr/bin/google-chrome'
+    
+#     if not os.path.exists(chrome_driver_path):
+#         raise FileNotFoundError(f"Không tìm thấy đường dẫn {chrome_driver_path}")
+#     if not os.access(chrome_driver_path, os.X_OK):
+#         raise PermissionError(f"Không có quyền thực thi file tại {chrome_driver_path}")
+#     if not os.path.exists(chrome_binary_path):
+#         raise FileNotFoundError(f"Không tìm thấy đường dẫn {chrome_binary_path}")
+#     if not os.access(chrome_binary_path, os.X_OK):
+#         raise PermissionError(f"Không có quyền thực thi file tại {chrome_binary_path}")
+    
+#     service = ChromeService(chrome_driver_path)
+#     options = Options()
+#     options.binary_location = chrome_binary_path
+#     options.add_argument('--disable-gpu')
+#     options.add_argument('--disable-notifications')
+#     options.add_argument('--no-sandbox')
+#     options.add_argument('--disable-dev-shm-usage')
+#     options.add_argument('--log-level=3')
+#     options.add_argument('--disable-extensions')
+    
+#     try:
+#         driver = webdriver.Chrome(service=service, options=options)
+#         return driver
+#     except Exception as e:
+#         logger.error(f"Lỗi khởi tạo WebDriver: {e}")
+#         raise
+
 def web_driver():
-    chrome_driver_path = '/home/hoanglinh/CrawlData/chromedriver-linux64/chromedriver'
-    chrome_binary_path = '/usr/bin/google-chrome'
-    
-    if not os.path.exists(chrome_driver_path):
-        raise FileNotFoundError(f"Không tìm thấy đường dẫn {chrome_driver_path}")
-    if not os.access(chrome_driver_path, os.X_OK):
-        raise PermissionError(f"Không có quyền thực thi file tại {chrome_driver_path}")
-    if not os.path.exists(chrome_binary_path):
-        raise FileNotFoundError(f"Không tìm thấy đường dẫn {chrome_binary_path}")
-    if not os.access(chrome_binary_path, os.X_OK):
-        raise PermissionError(f"Không có quyền thực thi file tại {chrome_binary_path}")
-    
-    service = ChromeService(chrome_driver_path)
-    options = Options()
-    options.binary_location = chrome_binary_path
-    options.add_argument('--disable-gpu')
-    options.add_argument('--disable-notifications')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--log-level=3')
-    options.add_argument('--disable-extensions')
-    
     try:
+        # Đọc cấu hình
+        config_path = os.path.join(os.path.expanduser("~"), ".google_scraper", "config.json")
+        with open(config_path) as f:
+            config = json.load(f)
+        
+        # Sử dụng WebDriverManager để tự động tải ChromeDriver
+        driver_path = ChromeDriverManager().install()
+        
+        service = ChromeService(driver_path)
+        options = Options()
+        options.binary_location = config["chrome_binary_path"]
+        
+        # Các tùy chọn Chrome khác
+        options.add_argument('--disable-gpu')
+        options.add_argument('--disable-notifications')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--log-level=3')
+        options.add_argument('--disable-extensions')
+
         driver = webdriver.Chrome(service=service, options=options)
         return driver
     except Exception as e:
-        logger.error(f"Lỗi khởi tạo WebDriver: {e}")
-        raise
+        raise Exception(f"Lỗi khởi tạo Chrome: {str(e)}")
 
 
 def google_search(driver, keyword):
@@ -60,7 +88,7 @@ def google_search(driver, keyword):
         logger.error(f"Error during search: {e}")
         return False
 
-def scrape_suggestions(driver, filename, initial_clicks=20, progress_callback=None, status_callback=None):
+def scrape_suggestions(driver, filename, initial_clicks=20, progress_callback=None, status_callback=None, stop_event=None):
     processed_titles = set()
     total_results = 0
     suggestions_count = 0
@@ -71,6 +99,11 @@ def scrape_suggestions(driver, filename, initial_clicks=20, progress_callback=No
             
         # Phase 1: Tạo suggestions
         for click_count in range(initial_clicks):
+            if stop_event and stop_event.is_set():  # Kiểm tra nếu sự kiện dừng đã được kích hoạt
+                if status_callback:
+                    status_callback("Quá trình cào đã bị dừng.")
+                break
+            
             try:
                 time.sleep(3)
                 
@@ -114,6 +147,11 @@ def scrape_suggestions(driver, filename, initial_clicks=20, progress_callback=No
         
         # Phase 2: Thu thập dữ liệu
         for index, div in enumerate(suggestion_divs):
+            if stop_event and stop_event.is_set():  # Kiểm tra nếu sự kiện dừng đã được kích hoạt
+                if status_callback:
+                    status_callback("Quá trình cào đã bị dừng.")
+                break
+            
             try:
                 title = div.find_element(By.CLASS_NAME, "CSkcDe").text.strip()
                 if title in processed_titles:
