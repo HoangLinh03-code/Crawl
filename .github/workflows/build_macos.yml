@@ -33,7 +33,7 @@ jobs:
 
       # Bước 5: Tải file .app dưới dạng artifact
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: GoogleScraper-macos
           path: dist/release/macos/
