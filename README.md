@@ -12,6 +12,7 @@
     + Thanh công cụ nhập 1 hoặc nhiều từ khóa
     + Thanh điều chỉnh số lần click
     + Thanh điều chỉnh số cửa số gg có thể mở
+    + Nút để bật mở cửa sổ khi cào hoặc tắt đi để giảm các cửa sổ chạy cùng lúc.
     + Nút cào và dừng
     + Phần console chứa thông tin quá trình thu thập dữ liệu.
 # Cách chạy chương trình:
