@@ -39,6 +39,7 @@ python build_all.py
 - Tạo repo riêng, upcode lên github.
 - Tạo folder ./github/workflows/
 - Tạo file build_mac.yml trong folder đó
+- Sau khi build sẽ có file tar.gz, tải và giải nén để sử dụng trên mac
 ```bash
 name: Build macOS App
 
@@ -81,4 +82,3 @@ jobs:
           name: GoogleScraper-macos
           path: dist/release/macos/
 ```
-- Sau khi build sẽ có file tar.gz, tải và giải nén để sử dụng trên mac
