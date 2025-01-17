@@ -10,9 +10,19 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import logging
 import re
-
+import subprocess
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+def get_chrome_version():
+    try:
+        # Lấy phiên bản Chrome từ terminal
+        output = subprocess.check_output(["google-chrome", "--version"]).decode("utf-8")
+        version = re.search(r"\d+\.\d+\.\d+", output).group(0)  # Trích xuất phiên bản (ví dụ: 126.0.6478.55)
+        return version
+    except Exception as e:
+        print(f"Không thể lấy phiên bản Chrome: {e}")
+        return None
 
 def get_chromedriver_path():
     system = platform.system().lower()
@@ -27,10 +37,16 @@ def get_chromedriver_path():
         else:
             driver_name = 'chromedriver_MACx64'
     else:
-        if platform.machine() == 'aarch64':
-            driver_name = 'chromedriver_linux_arm64'
+        # Xử lý cho Linux x64
+        chrome_version = get_chrome_version()
+        if chrome_version:
+            major_version = int(chrome_version.split('.')[0])  # Lấy số phiên bản chính (ví dụ: 126)
+            if major_version < 129:  # Phiên bản Chrome cũ
+                driver_name = 'chromedriver_Linux'
+            else:  # Phiên bản Chrome mới
+                driver_name = 'chromedriver_Linux_new'
         else:
-            driver_name = 'chromedriver_Linux'
+            raise RuntimeError("Không thể xác định phiên bản Chrome.")
     
     driver_path = os.path.join(chrome_driver_dir, driver_name)
     if system != 'windows':

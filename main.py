@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import ttk, scrolledtext, messagebox
 import threading
 from datetime import datetime
-import os
-import csv
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from CrawlV2 import web_driver, google_search, scrape_suggestions
 

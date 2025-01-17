@@ -90,37 +90,37 @@ def build_linux():
 #     except subprocess.CalledProcessError as e:
 #         print(f"Error building for Windows: {e}")
 
-def build_macos():
-    """Build cho macOS"""
-    print("Building for macOS...")
-    subprocess.run([
-        'pyinstaller',
-        '--name=GoogleScraper',
-        '--windowed',
-        '--add-data=CrawlV2.py:.',
-        '--add-data=ChromeDriver:ChromeDriver',
-        '--hidden-import=selenium',
-        '--hidden-import=tkinter',
-        '--hidden-import=concurrent.futures',
-        '--clean',
-        'main.py'
-    ], check=True)
+# def build_macos():
+#     """Build cho macOS"""
+#     print("Building for macOS...")
+#     subprocess.run([
+#         'pyinstaller',
+#         '--name=GoogleScraper',
+#         '--windowed',
+#         '--add-data=CrawlV2.py:.',
+#         '--add-data=ChromeDriver:ChromeDriver',
+#         '--hidden-import=selenium',
+#         '--hidden-import=tkinter',
+#         '--hidden-import=concurrent.futures',
+#         '--clean',
+#         'main.py'
+#     ], check=True)
     
-    # Tạo thư mục phân phối
-    os.makedirs('dist/release/macos', exist_ok=True)
+#     # Tạo thư mục phân phối
+#     os.makedirs('dist/release/macos', exist_ok=True)
     
-    # # Copy README và LICENSE
-    # shutil.copy('README.md', 'dist/GoogleScraper/')
-    # shutil.copy('LICENSE', 'dist/GoogleScraper/')
+#     # # Copy README và LICENSE
+#     # shutil.copy('README.md', 'dist/GoogleScraper/')
+#     # shutil.copy('LICENSE', 'dist/GoogleScraper/')
     
-    # Nén thành file tar.gz
-    subprocess.run([
-        'tar', 
-        '-czf', 
-        'dist/release/macos/GoogleScraper-macos.tar.gz',
-        '-C', 'dist/GoogleScraper',
-        '.'
-    ], check=True)
+#     # Nén thành file tar.gz
+#     subprocess.run([
+#         'tar', 
+#         '-czf', 
+#         'dist/release/macos/GoogleScraper-macos.tar.gz',
+#         '-C', 'dist/GoogleScraper',
+#         '.'
+#     ], check=True)
 
 def main():
     # Tạo thư mục release
