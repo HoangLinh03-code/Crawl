@@ -6,6 +6,7 @@
 - Chương trình sẽ chỉ bấm vào phần gợi ý đầu tiên trong 'Mọi người cũng hỏi' chỉ tạo ra gợi ý giống với từ khóa hoặc gợi ý đầu tiên.
 - Sau khi đã thực hiện click, chương trình sẽ thu thập dữ liệu từ các gợi ý đã được gg tạo ra, sau đó đưa vào file excel.
 - Kết thúc chương trình.
+
 **Main.py**
 - Phần giao diện người dùng gồm:
     + Thanh công cụ nhập 1 hoặc nhiều từ khóa
