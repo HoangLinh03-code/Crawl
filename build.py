@@ -25,7 +25,7 @@ def build_macos():
         '--hidden-import=tkinter',
         '--hidden-import=concurrent.futures',
         '--clean',               # Dọn dẹp trước khi build
-        '--icon=app_icon.icns',  # Icon cho ứng dụng (nếu có)
+        '--icon=icon.ico',  # Icon cho ứng dụng (nếu có)
         'main.py'                # File chính của ứng dụng
     ], check=True)
     
