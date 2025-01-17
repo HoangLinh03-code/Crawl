@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# Build-for-mac
-=======
 # Cách chương trình hoạt động:
 **CrawV2.py**
 - File này sẽ thực hiện phần thu thập dữ liệu
@@ -83,4 +80,3 @@ jobs:
           path: dist/release/macos/
 ```
 - Sau khi build sẽ có file tar.gz, tải và giải nén để sử dụng trên mac
->>>>>>> b10f0f0a0382916a6824e2eaff0b25c44ad41c9e
